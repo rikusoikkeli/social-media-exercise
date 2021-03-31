@@ -4,7 +4,7 @@ import datetime
 
 
 class User(AbstractUser):
-    photo = models.ImageField(upload_to="photos", blank=True)
+    photo = models.ImageField(upload_to="network/static/network/photos", blank=True)
 
     def __str__(self):
         return f"{self.username}"

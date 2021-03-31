@@ -1,5 +1,15 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block body %}
-    TODO
+    <div id="page-div">
+        <div id="new-post-div">
+        <form>
+            <textarea placeholder="What's on your mind?"></textarea>
+            <button type="submit">Post</button>
+        </form>
+        </div>
+        <div id="feed-div">
+        </div>
+    </div>
 {% endblock %}
