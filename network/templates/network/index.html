@@ -3,12 +3,14 @@
 
 {% block body %}
     <div id="page-div">
+        {% if user.is_authenticated %}
         <div id="new-post-div">
         <form>
             <textarea placeholder="What's on your mind?"></textarea>
-            <button type="submit">Post</button>
+            <button class="btn btn-secondary" type="submit">Post</button>
         </form>
         </div>
+        {% endif %}
         <div id="feed-div">
             <ul>
                 {% for post in page %}
@@ -32,6 +34,17 @@
                     </div>
                     <div class="post-all-comments" data-post-id="{{ post.id }}">
                     </div>
+                    {% if user.is_authenticated %}
+                    <div class="post-add-comment">
+                        <form action="{% url 'index' %}" method="post">
+                            {% csrf_token %}
+                            {{ form }}
+                            <input type="Submit" class="btn btn-secondary" value="Comment">
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                            <input type="hidden" name="page" value="{{ page.number }}">
+                        </form>
+                    </div>
+                    {% endif %}
                 </article>
                 {% endfor %}
             </ul>
@@ -40,7 +53,7 @@
             <div id="previous-page-div">
                 {% if page.has_previous %}
                 <form action="{% url 'index' %}" method="GET">
-                    <input type="submit" value="Previous Page">
+                    <input type="submit" class="btn btn-secondary" value="Previous Page">
                     <input type="hidden" name="page" value="{{ page.previous_page_number }}">
                 </form>
                 {% endif %}
@@ -48,7 +61,7 @@
             <div id="next-page-div">
                 {% if page.has_next %}
                 <form action="{% url 'index' %}" method="GET">
-                    <input type="submit" value="Next Page">
+                    <input type="submit" class="btn btn-secondary" value="Next Page">
                     <input type="hidden" name="page" value="{{ page.next_page_number }}">
                 </form>
                 {% endif %}
