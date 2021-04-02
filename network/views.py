@@ -4,6 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+import json
 
 from .models import User, Follow, Post, Comment, Like
 
@@ -74,3 +76,24 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+def getComments(request, post_id):
+    
+    # Query for requested comments
+    try:
+        post = Post.objects.get(pk=post_id)
+        comments = Comment.objects.filter(post=post)
+    except Comment.DoesNotExist:
+        return JsonResponse({"error": "Comments not found."}, status=404)
+
+    # Return comments
+    if request.method == "GET":
+        #all_comments_dict = {}
+        #index = 0
+        #for comment in comments:
+        #    all_comments_dict[index] = comment.serialize()
+        #    index += 1
+        #return JsonResponse(all_comments_dict)
+        return JsonResponse([comment.serialize() for comment in comments], safe=False)
+

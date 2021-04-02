@@ -69,6 +69,15 @@ class Comment(models.Model):
         else:
             return False
 
+    def serialize(self):
+        return {
+            "comment_id": self.id,
+            "user_id": self.user.id,
+            "post_id": self.post.id,
+            "content": self.content,
+            "time": self.time
+        }
+
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
