@@ -3,12 +3,25 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.core.paginator import Paginator
 
-from .models import User
+from .models import User, Follow, Post, Comment, Like
 
 
 def index(request):
-    return render(request, "network/index.html")
+    posts = Post.objects.all()
+    # Paginator params: iterable, objects per page
+    posts_paginated = Paginator(posts, 3)
+    # get method params: name from query string, default value if not found
+    page_num = request.GET.get("page", 1)
+    page = posts_paginated.page(page_num)
+
+    comments = Comment.objects.all()
+
+    return render(request, "network/index.html", {
+        "page": page,
+        "comments": comments
+    })
 
 
 def login_view(request):

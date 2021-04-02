@@ -10,6 +10,49 @@
         </form>
         </div>
         <div id="feed-div">
+            <ul>
+                {% for post in page %}
+                <article>
+                    <div class="post-main">
+                        <div class="post-top">
+                            <img src="{% static 'network/photos/harry.jpg' %}" alt="image">
+                            {{ post.user.username }}
+                        </div>
+                        <div class="post-content">
+                            {{ post.content }}
+                        </div>
+                        <div class="post-bottom">
+                            <div>
+                                <button>Like</button>
+                            </div>
+                            <div class="timestamp">
+                                {{ post.time }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-all-comments">
+                    </div>
+                </article>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="page-bottom-div">
+            <div id="previous-page-div">
+                {% if page.has_previous %}
+                <form action="{% url 'index' %}" method="GET">
+                    <input type="submit" value="Previous Page">
+                    <input type="hidden" name="page" value="{{ page.previous_page_number }}">
+                </form>
+                {% endif %}
+            </div>
+            <div id="next-page-div">
+                {% if page.has_next %}
+                <form action="{% url 'index' %}" method="GET">
+                    <input type="submit" value="Next Page">
+                    <input type="hidden" name="page" value="{{ page.next_page_number }}">
+                </form>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}
