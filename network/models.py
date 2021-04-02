@@ -69,12 +69,15 @@ class Comment(models.Model):
         else:
             return False
 
+    # user_photo string slicing on ihan purkkaratkaisu, joka tulee muuttaa
     def serialize(self):
         return {
             "comment_id": self.id,
+            "comment_content": self.content,
             "user_id": self.user.id,
+            "user_username": self.user.username,
+            "user_photo": str(self.user.photo)[7:],
             "post_id": self.post.id,
-            "content": self.content,
             "time": self.time
         }
 

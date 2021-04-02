@@ -74,3 +74,14 @@ article img {
     background-color: chocolate;
 }
 
+.comment-container {
+    background-color:gainsboro;
+    display: grid;
+    grid-template-columns: 120px auto;
+    margin: 10px;
+}
+
+.comment-username {
+    font-weight: bold;
+}
+
