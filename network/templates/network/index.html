@@ -17,7 +17,8 @@
                 <article>
                     <div class="post-main">
                         <div class="post-top">
-                            <img src="{% static 'network/photos/harry.jpg' %}" alt="image">
+                            <!-- Päivitä tämä! -->
+                            <img src="{{ post.user.getStaticURL }}" alt="image">
                             {{ post.user.username }}
                         </div>
                         <div class="post-content">

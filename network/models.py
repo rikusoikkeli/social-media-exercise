@@ -9,6 +9,14 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username}"
 
+    def getStaticURL(self):
+        """Pelkkä user.photo.url antaa liian pitkän urlin. Ei sovi Django-templateen. 
+        Tämä funktio palauttaa urlin static-kansiosta eteenpäin."""
+        url = self.photo.url
+        url_split = url.split("static")
+        url_static = "/static" + url_split[-1]
+        return url_static
+
 
 class Follow(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="follower")
@@ -76,7 +84,7 @@ class Comment(models.Model):
             "comment_content": self.content,
             "user_id": self.user.id,
             "user_username": self.user.username,
-            "user_photo": str(self.user.photo)[7:],
+            "user_photo": str(self.user.getStaticURL()),
             "post_id": self.post.id,
             "time": self.time
         }
