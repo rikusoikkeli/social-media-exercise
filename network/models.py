@@ -57,6 +57,21 @@ class Post(models.Model):
         else:
             return False
 
+    def serialize(self):
+        # tehdään dict tykkääjistä
+        likes_list = []
+        for like in self.likes.all():
+            likes_list.append(like.user.id)
+        # tehdään dict postauksesta, johon lisätään tykkääjät
+        post_dict = {
+            "post_id": self.id,
+            "post_content": self.content,
+            "post_time": str(self.time),
+            "like_user_ids": likes_list
+        }
+        # palautetaan dict
+        return post_dict
+
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
@@ -92,7 +107,7 @@ class Comment(models.Model):
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=False)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=False, related_name="likes")
 
     class Meta:
         constraints = [

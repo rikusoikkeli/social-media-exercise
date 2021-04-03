@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 import json
 from django import forms
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Follow, Post, Comment, Like
 
@@ -116,6 +117,45 @@ def getComments(request, post_id):
 
     # Return comments
     if request.method == "GET":
-        # Miksi tämä toimii?
         return JsonResponse([comment.serialize() for comment in comments], safe=False)
+
+
+@csrf_exempt
+def getPost(request, post_id):
+
+    # Query for requested post
+    try:
+        post = Post.objects.get(pk=post_id)
+    # Testaa mikä tämän except-blokin logiikka on
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+
+    if request.method == "GET":
+        post_serialized = post.serialize()
+        user_id = request.user.id
+        if user_id in post_serialized["like_user_ids"]:
+            post_serialized["current_user_likes"] = True
+        else:
+            post_serialized["current_user_likes"] = False
+
+        return JsonResponse(post_serialized, safe=False)
+
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("like") == True:
+            # Jos like on True, yritetään lisätä Like. Annetaan lopputuloksesta statuskoodi.
+            try:
+                like = Like(user=request.user, post=post)
+                like.save()
+                return HttpResponse(status=204)
+            except:
+                return JsonResponse({"error": "Could not add Like"}, status=404)
+        else:
+            # Jos like ei ole True (eli on False), poistetaan Like. Annetaan lopputuloksesta statuskoodi.
+            try:
+                like = Like.objects.get(user=request.user, post=post)
+                like.delete()
+                return HttpResponse(status=204)
+            except:
+                return JsonResponse({"error": "Could not remove Like"}, status=404)
 

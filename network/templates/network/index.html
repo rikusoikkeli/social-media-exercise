@@ -17,17 +17,13 @@
                 <article>
                     <div class="post-main">
                         <div class="post-top">
-                            <!-- Päivitä tämä! -->
                             <img src="{{ post.user.getStaticURL }}" alt="image">
                             {{ post.user.username }}
                         </div>
                         <div class="post-content">
                             {{ post.content }}
                         </div>
-                        <div class="post-bottom">
-                            <div>
-                                <button>Like</button>
-                            </div>
+                        <div class="post-bottom" data-post-id="{{ post.id }}">
                             <div class="timestamp">
                                 {{ post.time }}
                             </div>
