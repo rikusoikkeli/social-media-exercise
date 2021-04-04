@@ -189,3 +189,4 @@ def makeNewPost(request):
             print("jokin meni pieleen")
         # ohjataan etusivulle
         return HttpResponseRedirect(reverse("network:index"))
+
