@@ -9,6 +9,5 @@ jobs:
     - name: Run Django unit tests
       run: |
         pip install --user django
-        python manage.py makemigrations
-        python manage.py migrate
+        pip install Pillow
         python manage.py test
