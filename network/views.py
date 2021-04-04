@@ -8,6 +8,7 @@ from django.http import JsonResponse
 import json
 from django import forms
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 from .models import User, Follow, Post, Comment, Like
 
@@ -32,7 +33,7 @@ def index(request):
             new_comment.save()
 
             # Tehdään tämä, jotta palataan samalle Paginator-sivulle, jolla oltiin aiemmin.
-            url = reverse("index")+"?page="+str(page_number)
+            url = reverse("network:index")+"?page="+str(page_number)
             return HttpResponseRedirect(url)
         else:
             return HttpResponse("Form is not valid!")
@@ -65,7 +66,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("network:index"))
         else:
             return render(request, "network/login.html", {
                 "message": "Invalid username and/or password."
@@ -76,7 +77,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("network:index"))
 
 
 def register(request):
@@ -101,7 +102,7 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("network:index"))
     else:
         return render(request, "network/register.html")
 
@@ -121,6 +122,7 @@ def getComments(request, post_id):
 
 
 @csrf_exempt
+@login_required
 def getPost(request, post_id):
 
     # Query for requested post

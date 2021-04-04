@@ -33,7 +33,7 @@
                     </div>
                     {% if user.is_authenticated %}
                     <div class="post-add-comment">
-                        <form action="{% url 'index' %}" method="post">
+                        <form action="{% url 'network:index' %}" method="post">
                             {% csrf_token %}
                             {{ form }}
                             <input type="Submit" class="btn btn-secondary" value="Comment">
@@ -49,7 +49,7 @@
         <div class="page-bottom-div">
             <div id="previous-page-div">
                 {% if page.has_previous %}
-                <form action="{% url 'index' %}" method="GET">
+                <form action="{% url 'network:index' %}" method="GET">
                     <input type="submit" class="btn btn-secondary" value="Previous Page">
                     <input type="hidden" name="page" value="{{ page.previous_page_number }}">
                 </form>
@@ -57,7 +57,7 @@
             </div>
             <div id="next-page-div">
                 {% if page.has_next %}
-                <form action="{% url 'index' %}" method="GET">
+                <form action="{% url 'network:index' %}" method="GET">
                     <input type="submit" class="btn btn-secondary" value="Next Page">
                     <input type="hidden" name="page" value="{{ page.next_page_number }}">
                 </form>

@@ -12,10 +12,13 @@ class User(AbstractUser):
     def getStaticURL(self):
         """Pelkkä user.photo.url antaa liian pitkän urlin. Ei sovi Django-templateen. 
         Tämä funktio palauttaa urlin static-kansiosta eteenpäin."""
-        url = self.photo.url
-        url_split = url.split("static")
-        url_static = "/static" + url_split[-1]
-        return url_static
+        try:
+            url = self.photo.url
+            url_split = url.split("static")
+            url_static = "/static" + url_split[-1]
+            return url_static
+        except:
+            return False
 
 
 class Follow(models.Model):
@@ -92,7 +95,6 @@ class Comment(models.Model):
         else:
             return False
 
-    # user_photo string slicing on ihan purkkaratkaisu, joka tulee muuttaa
     def serialize(self):
         return {
             "comment_id": self.id,
