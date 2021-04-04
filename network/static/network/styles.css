@@ -62,6 +62,7 @@ article img {
 
 .post-content {
     margin: 20px;
+    white-space: pre-line;
 }
 
 .page-bottom-div {

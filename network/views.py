@@ -19,6 +19,10 @@ class PostCommentForm(forms.Form):
     page = forms.CharField(widget=forms.HiddenInput())
 
 
+class MakeNewPostForm(forms.Form):
+    content = forms.CharField(widget=forms.Textarea(attrs={"placeholder":"What's on your mind?"}), label=False)
+
+
 def index(request):
     if request.method == "POST":
         form = PostCommentForm(request.POST)
@@ -48,10 +52,13 @@ def index(request):
         comments = Comment.objects.all()
         form = PostCommentForm()
 
+        form2 = MakeNewPostForm()
+
         return render(request, "network/index.html", {
             "page": page,
             "comments": comments,
-            "form": form
+            "form": form,
+            "form2": form2
         })
 
 
@@ -160,4 +167,26 @@ def getPost(request, post_id):
                 return HttpResponse(status=204)
             except:
                 return JsonResponse({"error": "Could not remove Like"}, status=404)
+
+
+@login_required
+def makeNewPost(request):
+    if request.method == "POST":
+        try:
+            # yritetään tehdä ja tallentaa postaus
+            form = MakeNewPostForm(request.POST)
+            if form.is_valid():
+                user = request.user
+                content = form.cleaned_data["content"]
+                print(content)
+                newPost = Post(user=user, content=content)
+                newPost.save()
+                print("käyttäjä tallensi postauksen")
+            else:
+                raise Exception("Not valid data!")
+        except:
+            # palautetaan error
+            print("jokin meni pieleen")
+        # ohjataan etusivulle
+        return HttpResponseRedirect(reverse("network:index"))
 
