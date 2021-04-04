@@ -10,4 +10,6 @@ jobs:
       run: |
         pip install --user django
         pip install Pillow
+        python manage.py makemigrations
+        python manage.py migrate
         python manage.py test
