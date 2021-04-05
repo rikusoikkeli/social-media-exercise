@@ -167,8 +167,11 @@ function followUnfollow() {
             body: JSON.stringify({
                 current_user_follows: true
             })
-        }) 
-        .then(addFollowButtons())
+        })
+        // Laitetaan nappi vasta sitten, kun API on antanut vastauksen
+        .then(data => {
+            addFollowButtons();
+        })
 
     } else if (this.id === "unfollow") {
         console.log("unfollow");
@@ -178,7 +181,10 @@ function followUnfollow() {
             body: JSON.stringify({
                 current_user_follows: false
             })
-        }) 
-        .then(addFollowButtons())
+        })
+        // Laitetaan nappi vasta sitten, kun API on antanut vastauksen
+        .then(data => {
+            addFollowButtons();
+        })
     }
 }

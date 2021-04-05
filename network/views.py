@@ -202,6 +202,7 @@ def userData(request, user_id):
     if request.method == "GET":
         user_serialized = user.serialize()
         print(request.user.id)
+        # jos käyttäjä hakee itsensä tiedot, ei alla olevaa kenttää, jotta JS ei laita nappia
         if request.user.id != user_serialized["user_id"]:
             # kokeillaan, onko requestin lähettäjä on dictissä user_is_followed by
             try:
@@ -210,7 +211,7 @@ def userData(request, user_id):
             except:
                 user_serialized["current_user_follows"] = False
 
-            return JsonResponse(user_serialized, safe=False)
+        return JsonResponse(user_serialized, safe=False) 
 
     if request.method == "PUT":
         data = json.loads(request.body)
