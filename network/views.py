@@ -59,15 +59,14 @@ def index(request, feed=Feed()):
         page = posts_paginated.page(page_num)
 
         comments = Comment.objects.all()
-        form = PostCommentForm()
-
-        form2 = MakeNewPostForm()
+        comment_form = PostCommentForm()
+        new_post_form = MakeNewPostForm()
 
         return render(request, "network/index.html", {
             "page": page,
             "comments": comments,
-            "form": form,
-            "form2": form2
+            "comment_form": comment_form,
+            "new_post_form": new_post_form
         })
 
 

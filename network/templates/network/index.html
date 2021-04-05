@@ -8,7 +8,7 @@
         <div id="new-post-div">
         <form action="{% url 'network:makeNewPost' %}" method="post">
             {% csrf_token %}
-            {{ form2 }}
+            {{ new_post_form }}
             <!-- <textarea placeholder="What's on your mind?" name="content"></textarea> -->
             <button class="btn btn-secondary" type="submit">Post</button>
         </form>
@@ -42,7 +42,7 @@
                     <div class="post-add-comment">
                         <form action="{% url 'network:index' %}" method="post">
                             {% csrf_token %}
-                            {{ form }}
+                            {{ comment_form }}
                             <input type="Submit" class="btn btn-secondary" value="Comment">
                             <input type="hidden" name="post_id" value="{{ post.id }}">
                             <input type="hidden" name="page" value="{{ page.number }}">
