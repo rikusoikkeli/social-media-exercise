@@ -157,11 +157,8 @@ function addFollowButtons() {
 
 function followUnfollow() {
     const user_id = this.dataset.userId;
-    console.log(`clicked follow/unfollow on user ${user_id}`);
 
     if (this.id === "follow") {
-        console.log("follow");
-
         fetch(`/data/user/${user_id}`, {
             method: "PUT",
             body: JSON.stringify({
@@ -174,8 +171,6 @@ function followUnfollow() {
         })
 
     } else if (this.id === "unfollow") {
-        console.log("unfollow");
-
         fetch(`/data/user/${user_id}`, {
             method: "PUT",
             body: JSON.stringify({

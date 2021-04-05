@@ -192,6 +192,7 @@ def makeNewPost(request):
 
 
 @csrf_exempt
+@login_required
 def userData(request, user_id):
     # kokeillaan, onko käyttäjä olemassa
     try:
