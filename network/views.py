@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
 from .models import User, Follow, Post, Comment, Like
+from .util import FeedType, Feed, getFollowedPosts
 
 
 class PostCommentForm(forms.Form):
@@ -23,7 +24,7 @@ class MakeNewPostForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea(attrs={"placeholder":"What's on your mind?"}), label=False)
 
 
-def index(request):
+def index(request, feed=Feed()):
     if request.method == "POST":
         form = PostCommentForm(request.POST)
         if form.is_valid():
@@ -41,8 +42,16 @@ def index(request):
             return HttpResponseRedirect(url)
         else:
             return HttpResponse("Form is not valid!")
-    else:
-        posts = Post.objects.all().order_by('-id')
+
+    if request.method == "GET":
+        try:
+            if feed.getFeed() == "ALL_POSTS":
+                posts = Post.objects.all().order_by('-id')
+            elif feed.getFeed() == "FOLLOWING" and request.user.is_authenticated:
+                posts = getFollowedPosts(request.user.id).order_by('-id')
+        except:
+            return HttpResponse("Something went wrong!")
+
         # Paginator params: iterable, objects per page
         posts_paginated = Paginator(posts, 3)
         # get method params: name from query string, default value if not found
@@ -178,10 +187,8 @@ def makeNewPost(request):
             if form.is_valid():
                 user = request.user
                 content = form.cleaned_data["content"]
-                print(content)
                 newPost = Post(user=user, content=content)
                 newPost.save()
-                print("käyttäjä tallensi postauksen")
             else:
                 raise Exception("Not valid data!")
         except:
@@ -230,4 +237,10 @@ def userData(request, user_id):
                 return HttpResponse(status=204)
             except:
                 return JsonResponse({"error": "Could not remove Follow"}, status=404)
+
+
+def followingFeed(request):
+    feed=Feed()
+    feed.setFeedToFollow()
+    return index(request, feed)
 

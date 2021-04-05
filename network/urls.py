@@ -14,6 +14,7 @@ urlpatterns = [
     path("comments/<int:post_id>", views.getComments, name="getComments"),
     path("post/<int:post_id>", views.getPost, name="getPost"),
     path("new", views.makeNewPost, name="makeNewPost"),
-    path("data/user/<int:user_id>", views.userData, name="userData")
+    path("data/user/<int:user_id>", views.userData, name="userData"),
+    path("following", views.followingFeed, name="followingFeed")
 ]
 

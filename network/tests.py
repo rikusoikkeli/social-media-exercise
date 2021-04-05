@@ -101,3 +101,9 @@ class NetworkTestCase(TestCase):
         response = c.get("/data/user/1")
         self.assertEqual(response.status_code, 200)
 
+    def testFollowFeed(self):
+        c = Client()
+        c.force_login(self.u1)
+        response = c.get("/following")
+        self.assertEqual(response.status_code, 200)
+
