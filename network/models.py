@@ -45,7 +45,9 @@ class Follow(models.Model):
             # constraint: follower != followed
             models.CheckConstraint(
                     check=~models.Q(follower=models.F('followed')), 
-                    name="follower_followed_must_be_unequal")
+                    name="follower_followed_must_be_unequal"),
+            # sallitaan käyttäjältä vain yksi follow per käyttäjä
+            models.UniqueConstraint(fields=["follower", "followed"], name="follower_followed_must_be_unique")
         ]
 
     def __str__(self):

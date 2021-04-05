@@ -191,6 +191,7 @@ def makeNewPost(request):
         return HttpResponseRedirect(reverse("network:index"))
 
 
+@csrf_exempt
 def userData(request, user_id):
     # kokeillaan, onko käyttäjä olemassa
     try:
@@ -201,19 +202,31 @@ def userData(request, user_id):
     if request.method == "GET":
         user_serialized = user.serialize()
         print(request.user.id)
-        # kokeillaan, onko requestin lähettäjä on dictissä user_is_followed by
-        try:
-            user_serialized["user_is_followed_by"][request.user.id]
-            user_serialized["current_user_follows"] = True
-        except:
-            user_serialized["current_user_follows"] = False
+        if request.user.id != user_serialized["user_id"]:
+            # kokeillaan, onko requestin lähettäjä on dictissä user_is_followed by
+            try:
+                user_serialized["user_is_followed_by"][request.user.id]
+                user_serialized["current_user_follows"] = True
+            except:
+                user_serialized["current_user_follows"] = False
 
-        return JsonResponse(user_serialized, safe=False)
+            return JsonResponse(user_serialized, safe=False)
 
     if request.method == "PUT":
         data = json.loads(request.body)
         if data.get("current_user_follows") == True:
-            print(f"set user {request.user.username} to follow {user.username}")
+            try:
+                print(f"set user {request.user.username} to follow {user.username}")
+                newFollow = Follow(follower=request.user, followed=user)
+                newFollow.save()
+                return HttpResponse(status=204)
+            except:
+                return JsonResponse({"error": "Could not add Follow"}, status=404)
         else:
-            print(f"set user {request.user.username} to unfollow {user.username}")
+            try:
+                print(f"set user {request.user.username} to unfollow {user.username}")
+                Follow.objects.get(follower=request.user, followed=user).delete()
+                return HttpResponse(status=204)
+            except:
+                return JsonResponse({"error": "Could not remove Follow"}, status=404)
 

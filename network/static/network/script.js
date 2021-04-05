@@ -117,7 +117,7 @@ function likeUnlike() {
 function addFollowButtons() {
 
     // Tähän blokki, joka ensin poistaa namiskat, jos sellaisia on
-    const buttons = document.querySelectorAll(".follow-button");
+    const buttons = document.querySelectorAll(".post-username-follow");
     buttons.forEach(function(button) {
         button.remove();
     });
@@ -134,6 +134,7 @@ function addFollowButtons() {
                 //console.log(`add unfollow button to user ${post_user_id}`)
                 const follow_button_div = document.createElement("div");
                 follow_button_div.className = "post-username-follow";
+                follow_button_div.id = "unfollow";
                 follow_button_div.dataset.userId = post_user_id;
                 follow_button_div.innerHTML = "<button>Unfollow</button>";
                 top_div.append(follow_button_div);
@@ -143,6 +144,7 @@ function addFollowButtons() {
                 //console.log(`add follow button to user ${post_user_id}`)
                 const follow_button_div = document.createElement("div");
                 follow_button_div.className = "post-username-follow";
+                follow_button_div.id = "follow";
                 follow_button_div.dataset.userId = post_user_id;
                 follow_button_div.innerHTML = "<button>Follow</button>";
                 top_div.append(follow_button_div);
@@ -154,5 +156,29 @@ function addFollowButtons() {
 
 
 function followUnfollow() {
-    console.log("button is pressed");
+    const user_id = this.dataset.userId;
+    console.log(`clicked follow/unfollow on user ${user_id}`);
+
+    if (this.id === "follow") {
+        console.log("follow");
+
+        fetch(`/data/user/${user_id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                current_user_follows: true
+            })
+        }) 
+        .then(addFollowButtons())
+
+    } else if (this.id === "unfollow") {
+        console.log("unfollow");
+
+        fetch(`/data/user/${user_id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                current_user_follows: false
+            })
+        }) 
+        .then(addFollowButtons())
+    }
 }
