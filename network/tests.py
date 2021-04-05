@@ -97,6 +97,7 @@ class NetworkTestCase(TestCase):
 
     def testUserDataAPI(self):
         c = Client()
+        c.force_login(self.u1)
         response = c.get("/data/user/1")
         self.assertEqual(response.status_code, 200)
 
