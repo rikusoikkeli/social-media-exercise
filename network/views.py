@@ -120,7 +120,7 @@ def getComments(request, post_id):
     try:
         post = Post.objects.get(pk=post_id)
         comments = Comment.objects.filter(post=post)
-    except Comment.DoesNotExist:
+    except:
         return JsonResponse({"error": "Comments not found."}, status=404)
 
     # Return comments
@@ -136,7 +136,7 @@ def getPost(request, post_id):
     try:
         post = Post.objects.get(pk=post_id)
     # Testaa mikä tämän except-blokin logiikka on
-    except Post.DoesNotExist:
+    except:
         return JsonResponse({"error": "Post not found."}, status=404)
 
     if request.method == "GET":
@@ -186,7 +186,34 @@ def makeNewPost(request):
                 raise Exception("Not valid data!")
         except:
             # palautetaan error
-            print("jokin meni pieleen")
+            return HttpResponse("Something went wrong!")
         # ohjataan etusivulle
         return HttpResponseRedirect(reverse("network:index"))
+
+
+def userData(request, user_id):
+    # kokeillaan, onko käyttäjä olemassa
+    try:
+        user = User.objects.get(pk=user_id)
+    except:
+        return JsonResponse({"error": "User not found."}, status=404)
+    
+    if request.method == "GET":
+        user_serialized = user.serialize()
+        print(request.user.id)
+        # kokeillaan, onko requestin lähettäjä on dictissä user_is_followed by
+        try:
+            user_serialized["user_is_followed_by"][request.user.id]
+            user_serialized["current_user_follows"] = True
+        except:
+            user_serialized["current_user_follows"] = False
+
+        return JsonResponse(user_serialized, safe=False)
+
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("current_user_follows") == True:
+            print(f"set user {request.user.username} to follow {user.username}")
+        else:
+            print(f"set user {request.user.username} to unfollow {user.username}")
 

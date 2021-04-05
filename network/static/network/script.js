@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     addComments();
     addLikeButtons();
+    addFollowButtons()
 });
 
 
@@ -112,3 +113,46 @@ function likeUnlike() {
     }
 }
 
+
+function addFollowButtons() {
+
+    // Tähän blokki, joka ensin poistaa namiskat, jos sellaisia on
+    const buttons = document.querySelectorAll(".follow-button");
+    buttons.forEach(function(button) {
+        button.remove();
+    });
+
+    // Lopuksi lisätään namiskat
+    const post_top_divs = document.querySelectorAll(".post-top");
+    post_top_divs.forEach(function(top_div) {
+        var post_user_id = top_div.dataset.postUserId;
+        // Fetchataan postaajan id :llä ja tarkistetaan, seuraako nykyinen käyttäjä postaajaa
+        fetch(`/data/user/${post_user_id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data["current_user_follows"] === true) {
+                //console.log(`add unfollow button to user ${post_user_id}`)
+                const follow_button_div = document.createElement("div");
+                follow_button_div.className = "post-username-follow";
+                follow_button_div.dataset.userId = post_user_id;
+                follow_button_div.innerHTML = "<button>Unfollow</button>";
+                top_div.append(follow_button_div);
+                follow_button_div.addEventListener("click", followUnfollow);
+
+            } else if (data["current_user_follows"] === false) {
+                //console.log(`add follow button to user ${post_user_id}`)
+                const follow_button_div = document.createElement("div");
+                follow_button_div.className = "post-username-follow";
+                follow_button_div.dataset.userId = post_user_id;
+                follow_button_div.innerHTML = "<button>Follow</button>";
+                top_div.append(follow_button_div);
+                follow_button_div.addEventListener("click", followUnfollow);
+            }
+        })
+    })
+};
+
+
+function followUnfollow() {
+    console.log("button is pressed");
+}

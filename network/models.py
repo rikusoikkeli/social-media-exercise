@@ -20,10 +20,25 @@ class User(AbstractUser):
         except:
             return False
 
+    def serialize(self):
+        user_follows = {}
+        for user in self.follows.all():
+            user_follows[user.followed.id] = user.followed.username
+        user_is_followed_by = {}
+        for user in self.followers.all():
+            user_is_followed_by[user.follower.id] = user.follower.username       
+        return {
+            "user_id": self.id,
+            "username": self.username,
+            "photo_url": self.getStaticURL(),
+            "user_follows": user_follows,
+            "user_is_followed_by": user_is_followed_by
+        }
+
 
 class Follow(models.Model):
-    follower = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="follower")
-    followed = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="followed")
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="follows")
+    followed = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="followers")
 
     class Meta:
         constraints = [

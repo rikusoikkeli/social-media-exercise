@@ -18,9 +18,13 @@
                 {% for post in page %}
                 <article>
                     <div class="post-main">
-                        <div class="post-top">
-                            <img src="{{ post.user.getStaticURL }}" alt="image">
-                            {{ post.user.username }}
+                        <div class="post-top" data-post-user-id="{{ post.user.id }}">
+                            <div class="post-image">
+                                <img src="{{ post.user.getStaticURL }}" alt="image">
+                            </div>
+                            <div class="post-username">
+                                {{ post.user.username }}
+                            </div>
                         </div>
                         <div class="post-content">
                             {{ post.content }}

@@ -47,8 +47,21 @@ article img {
 }
 
 .post-top {
+    display: flex;
+}
+
+.post-username {
     font-weight: bold;
     font-size: large;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+}
+
+.post-username-follow {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
 }
 
 .post-bottom .timestamp {
