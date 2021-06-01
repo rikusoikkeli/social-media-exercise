@@ -131,7 +131,6 @@ function addFollowButtons() {
         .then(response => response.json())
         .then(data => {
             if (data["current_user_follows"] === true) {
-                //console.log(`add unfollow button to user ${post_user_id}`)
                 const follow_button_div = document.createElement("div");
                 follow_button_div.className = "post-username-follow";
                 follow_button_div.id = "unfollow";
@@ -141,7 +140,6 @@ function addFollowButtons() {
                 follow_button_div.addEventListener("click", followUnfollow);
 
             } else if (data["current_user_follows"] === false) {
-                //console.log(`add follow button to user ${post_user_id}`)
                 const follow_button_div = document.createElement("div");
                 follow_button_div.className = "post-username-follow";
                 follow_button_div.id = "follow";

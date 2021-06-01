@@ -1,0 +1,26 @@
+{% load static %}
+
+<div id="profile-div">
+    <div class="profile-image">
+        <img src="{{ profile_user.getStaticURL }}" alt="image">
+    </div>
+    <div class="profile-username">
+        {{ profile_user.username }}
+    </div>
+    <div class="profile-user-is-followed">
+        {% if profile_user.followers.all %}
+            User is followed by {{ profile_user.followers.all|length }} people
+        {% else %}
+            User is not followed by anyone.
+        {% endif %}
+    </div>
+    <div class="profile-user-follows">
+        {% if profile_user.follows.all %}
+            User follows {{ profile_user.follows.all|length }} people
+        {% else %}
+            User doesn't follow anyone.
+        {% endif %}
+    </div>
+    <div class="post-top" data-post-user-id="{{ profile_user.pk }}">
+    </div>
+</div>

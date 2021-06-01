@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
 from .models import User, Follow, Post, Comment, Like
-from .util import FeedType, Feed, getFollowedPosts
+from .util import FeedType, Feed, getFollowedPosts, getUsersPosts
 
 
 class PostCommentForm(forms.Form):
@@ -44,11 +44,18 @@ def index(request, feed=Feed()):
             return HttpResponse("Form is not valid!")
 
     if request.method == "GET":
+        user_viewing_own_profile = False
+        profile_user = None
         try:
             if feed.getFeed() == "ALL_POSTS":
                 posts = Post.objects.all().order_by('-id')
             elif feed.getFeed() == "FOLLOWING" and request.user.is_authenticated:
                 posts = getFollowedPosts(request.user.id).order_by('-id')
+            elif feed.getFeed() == "PROFILE":
+                profile_user = User.objects.get(pk=feed.getUserID())
+                posts = getUsersPosts(profile_user.pk).order_by('-id')
+                if profile_user == request.user:
+                    user_viewing_own_profile = True
         except:
             return HttpResponse("Something went wrong!")
 
@@ -66,7 +73,10 @@ def index(request, feed=Feed()):
             "page": page,
             "comments": comments,
             "comment_form": comment_form,
-            "new_post_form": new_post_form
+            "new_post_form": new_post_form,
+            "user_viewing_own_profile": user_viewing_own_profile,
+            "feed_to_show": feed.getFeed(),
+            "profile_user": profile_user
         })
 
 
@@ -241,5 +251,11 @@ def userData(request, user_id):
 def followingFeed(request):
     feed=Feed()
     feed.setFeedToFollow()
+    return index(request, feed)
+
+
+def profileView(request, user_id):
+    feed=Feed()
+    feed.setFeedToProfile(user_id)
     return index(request, feed)
 

@@ -1,6 +1,20 @@
 #page-div {
+    background-color:darkorange;
+    display: flex;
+}
+
+#left-side-div {
+    background-color:blueviolet;
+    height: 100vh;
+    float: left;
+    min-width: 300px;
+}
+
+#right-side-div {
     margin-inline: 10%;
-    max-width: 1000px;
+    min-width: 700px;
+    background-color: cyan;
+    float: right;
 }
 
 #new-post-div {
@@ -56,6 +70,10 @@ article img {
     margin-top: auto;
     margin-bottom: auto;
     margin-left: 10px;
+}
+
+.post-username > * {
+    color: black;
 }
 
 .post-username-follow {
@@ -119,3 +137,26 @@ article img {
     width: 80%;
     background-color: lightgray;
 }
+
+#profile-div {
+    display: inline;
+}
+
+.profile-image img {
+    width: 100%;
+}
+
+.profile-username {
+    font-weight: bold;
+    font-size: 40px;
+    margin-left: 10px;
+}
+
+.profile-user-is-followed {
+    margin-left: 10px;
+}
+
+.profile-user-follows {
+    margin-left: 10px;
+}
+
