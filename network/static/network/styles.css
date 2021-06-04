@@ -8,23 +8,27 @@
 }
 
 #page-div {
-    background-color:darkorange;
+    background-color: whitesmoke;
     display: flex;
+    /* tämä */
+    min-height: 100vh;
 }
 
 #left-side-div {
     background-color:blueviolet;
-    height: 100vh;
-    float: left;
+    /* height: 100vh; */
+    min-height: 100vh;
     animation: show-div;
     animation-duration: 200ms;
+    max-width: 300px;
 }
 
 #right-side-div {
     margin-inline: 10%;
-    min-width: 700px;
-    background-color: cyan;
-    float: right;
+    min-width: 800px;
+    background-color: yellowgreen;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #new-post-div {
@@ -169,4 +173,3 @@ article img {
 .profile-user-follows {
     margin-left: 10px;
 }
-
