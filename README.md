@@ -4,4 +4,4 @@ This is a social media website with all the features you'd expect. Users can cre
 
 I built this as an exercise for the course "CS50’s Web Programming with Python and JavaScript" offered by Harvard. 
 
-It comprises a lot of stuff. It's mainly built using Python's Django framework. But it also has HTML, CSS and JavaScript. A SQLite database. And as it's such a large project, there's really good automated tests there also.
+It comprises a lot of stuff. It's mainly built using Python's Django framework. But it also has HTML, CSS and JavaScript. A SQLite database. And as it's such a large project, there's good automated tests there also.
