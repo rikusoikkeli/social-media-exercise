@@ -54,8 +54,6 @@ def index(request, feed=Feed()):
             elif feed.getFeed() == "PROFILE":
                 profile_user = User.objects.get(pk=feed.getUserID())
                 posts = getUsersPosts(profile_user.pk).order_by('-id')
-                if profile_user == request.user:
-                    user_viewing_own_profile = True
         except:
             return HttpResponse("Something went wrong!")
 
@@ -74,7 +72,6 @@ def index(request, feed=Feed()):
             "comments": comments,
             "comment_form": comment_form,
             "new_post_form": new_post_form,
-            "user_viewing_own_profile": user_viewing_own_profile,
             "feed_to_show": feed.getFeed(),
             "profile_user": profile_user
         })
@@ -255,7 +252,10 @@ def followingFeed(request):
 
 
 def profileView(request, user_id):
-    feed=Feed()
-    feed.setFeedToProfile(user_id)
-    return index(request, feed)
+    if request.user.is_authenticated:
+        feed=Feed()
+        feed.setFeedToProfile(user_id)
+        return index(request, feed)
+    else:
+        return HttpResponse("Something went wrong!")
 

@@ -7,15 +7,6 @@
     }
 }
 
-@keyframes change-colour {
-    0% {
-        background-color: cadetblue;
-    }
-    100% {
-        background-color: crimson;
-    }
-}
-
 #page-div {
     background-color:darkorange;
     display: flex;
@@ -26,7 +17,7 @@
     height: 100vh;
     float: left;
     animation: show-div;
-    animation-duration: 500ms;
+    animation-duration: 200ms;
 }
 
 #right-side-div {

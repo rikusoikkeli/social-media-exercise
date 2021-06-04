@@ -9,7 +9,7 @@
         </div>
         {% endif %}
         <div id="right-side-div">
-            {% if user.is_authenticated and user.id == profile_id %}
+            {% if user.is_authenticated and user.id == profile_user.id or user.is_authenticated and profile_user == None %}
             <div id="new-post-div">
             <form action="{% url 'network:makeNewPost' %}" method="post">
                 {% csrf_token %}
