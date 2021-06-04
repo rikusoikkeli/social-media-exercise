@@ -107,3 +107,15 @@ class NetworkTestCase(TestCase):
         response = c.get("/following")
         self.assertEqual(response.status_code, 200)
 
+    def testValidProfile(self):
+        c = Client()
+        c.force_login(self.u1)
+        response = c.get("/profile/1")
+        self.assertEqual(response.status_code, 200)
+
+    def testInvalidProfile(self):
+        c = Client()
+        c.force_login(self.u1)
+        response = c.get("/profile/50")
+        self.assertEqual(response.status_code, 404)
+

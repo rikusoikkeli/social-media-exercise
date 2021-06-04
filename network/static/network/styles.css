@@ -7,16 +7,23 @@
     }
 }
 
+@keyframes on-change {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1
+    }
+}
+
 #page-div {
     background-color: whitesmoke;
     display: flex;
-    /* tämä */
     min-height: 100vh;
 }
 
 #left-side-div {
     background-color:blueviolet;
-    /* height: 100vh; */
     min-height: 100vh;
     animation: show-div;
     animation-duration: 200ms;
@@ -29,6 +36,8 @@
     background-color: yellowgreen;
     margin-left: auto;
     margin-right: auto;
+    animation: on-change;
+    animation-duration: 1s;
 }
 
 #new-post-div {

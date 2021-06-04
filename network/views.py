@@ -55,7 +55,7 @@ def index(request, feed=Feed()):
                 profile_user = User.objects.get(pk=feed.getUserID())
                 posts = getUsersPosts(profile_user.pk).order_by('-id')
         except:
-            return HttpResponse("Something went wrong!")
+            return HttpResponse("User could not be found!", status=404)
 
         # Paginator params: iterable, objects per page
         posts_paginated = Paginator(posts, 3)
