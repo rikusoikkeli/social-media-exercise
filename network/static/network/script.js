@@ -54,6 +54,10 @@ function addLikeButtons() {
     buttons.forEach(function(button) {
         button.remove();
     });
+    const texts = document.querySelectorAll(".like-info");
+    texts.forEach(function(text) {
+        text.remove();
+    });
 
     // Lopuksi lisätään namiskat
     const postBottomDivs = document.querySelectorAll(".post-bottom");
@@ -69,16 +73,16 @@ function addLikeButtons() {
                 likeButtonDiv.id = "like";
                 likeButtonDiv.dataset.postId = bottomDiv.dataset.postId;
                 likeButtonDiv.innerHTML = '<button type="button">Like</button>';
+                bottomDiv.append(likeButtonDiv);
 
                 // Like napin viereen teksti, jos on
                 if (post["like_text"] != null) {
                     const infoDiv = document.createElement("div");
                     infoDiv.className = "like-info";
                     infoDiv.append(post["like_text"]);
-                    likeButtonDiv.append(infoDiv);
+                    bottomDiv.append(infoDiv);
                 }
 
-                bottomDiv.append(likeButtonDiv);
                 // event listener
                 likeButtonDiv.addEventListener("click", likeUnlike);
 
@@ -89,16 +93,16 @@ function addLikeButtons() {
                 likeButtonDiv.id = "unlike";
                 likeButtonDiv.dataset.postId = bottomDiv.dataset.postId;
                 likeButtonDiv.innerHTML = '<button type="button">Unlike</button>';
+                bottomDiv.append(likeButtonDiv);
                 
                 // Like napin viereen teksti, jos on
                 if (post["like_text"] != null) {
                     const infoDiv = document.createElement("div");
                     infoDiv.className = "like-info";
                     infoDiv.append(post["like_text"]);
-                    likeButtonDiv.append(infoDiv);
+                    bottomDiv.append(infoDiv);
                 }
 
-                bottomDiv.append(likeButtonDiv);
                 // event listener
                 likeButtonDiv.addEventListener("click", likeUnlike);
             }
