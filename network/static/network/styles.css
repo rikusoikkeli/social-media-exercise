@@ -182,3 +182,14 @@ article img {
 .profile-user-follows {
     margin-left: 10px;
 }
+
+.like-button {
+    display: flex;
+}
+
+.like-info {
+    padding-left: 5px;
+    animation: on-change;
+    animation-duration: 500ms;
+}
+

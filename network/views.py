@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
 from .models import User, Follow, Post, Comment, Like
-from .util import FeedType, Feed, getFollowedPosts, getUsersPosts
+from .util import FeedType, Feed, getFollowedPosts, getUsersPosts, composeInfoAboutLikes
 
 
 class PostCommentForm(forms.Form):
@@ -161,6 +161,9 @@ def getPost(request, post_id):
             post_serialized["current_user_likes"] = True
         else:
             post_serialized["current_user_likes"] = False
+
+        # Lisätään tähän selitys tykkäyksistä, jota käytetään Like-painikkeen vieressä
+        post_serialized["like_text"] = composeInfoAboutLikes(post_serialized["like_user_ids"])
 
         return JsonResponse(post_serialized, safe=False)
 

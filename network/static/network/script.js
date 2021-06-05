@@ -69,9 +69,19 @@ function addLikeButtons() {
                 likeButtonDiv.id = "like";
                 likeButtonDiv.dataset.postId = bottomDiv.dataset.postId;
                 likeButtonDiv.innerHTML = '<button type="button">Like</button>';
+
+                // Like napin viereen teksti, jos on
+                if (post["like_text"] != null) {
+                    const infoDiv = document.createElement("div");
+                    infoDiv.className = "like-info";
+                    infoDiv.append(post["like_text"]);
+                    likeButtonDiv.append(infoDiv);
+                }
+
                 bottomDiv.append(likeButtonDiv);
                 // event listener
                 likeButtonDiv.addEventListener("click", likeUnlike);
+
             } else {
                 // laitetaan unlike-nappi
                 const likeButtonDiv = document.createElement("div");
@@ -79,6 +89,15 @@ function addLikeButtons() {
                 likeButtonDiv.id = "unlike";
                 likeButtonDiv.dataset.postId = bottomDiv.dataset.postId;
                 likeButtonDiv.innerHTML = '<button type="button">Unlike</button>';
+                
+                // Like napin viereen teksti, jos on
+                if (post["like_text"] != null) {
+                    const infoDiv = document.createElement("div");
+                    infoDiv.className = "like-info";
+                    infoDiv.append(post["like_text"]);
+                    likeButtonDiv.append(infoDiv);
+                }
+
                 bottomDiv.append(likeButtonDiv);
                 // event listener
                 likeButtonDiv.addEventListener("click", likeUnlike);

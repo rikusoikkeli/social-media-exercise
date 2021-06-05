@@ -71,3 +71,24 @@ def getUsersPosts(user_id):
     posts = Post.objects.filter(user=user)
     return posts
 
+
+def composeInfoAboutLikes(like_user_ids):
+    """Ottaa listan käyttäjätunnuksien id-numeroista. Tekee niistä tekstin, että se ja
+    se ja niin monta muuta tykkäävät. Käytetään Like-napin vieressä."""
+    if like_user_ids == 0:
+        return None
+
+    like_users = []
+    for id in like_user_ids:
+        username = User.objects.all().get(pk=id)
+        like_users.append(username)
+
+    if len(like_users) == 1:
+        return(f"{like_users[0]} likes this post")
+    elif len(like_users) == 2:
+        return(f"{like_users[0]} and {like_users[1]} like this post")
+    elif len(like_users) == 3:
+        return(f"{like_users[0]}, {like_users[1]} and {len(like_users)-2} other like this post")
+    elif len(like_users) > 3:
+        return(f"{like_users[0]}, {like_users[1]} and {len(like_users)-2} others like this post")
+
