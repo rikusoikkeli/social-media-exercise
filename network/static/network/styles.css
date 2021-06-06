@@ -187,6 +187,5 @@ article img {
 .like-info {
     animation: on-change;
     animation-duration: 500ms;
-    float: none;
 }
 
