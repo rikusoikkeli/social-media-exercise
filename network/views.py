@@ -147,13 +147,13 @@ def getComments(request, post_id):
 @login_required
 def getPost(request, post_id):
 
-    # Query for requested post
+    # Haetaan postaus
     try:
         post = Post.objects.get(pk=post_id)
-    # Testaa mikä tämän except-blokin logiikka on
     except:
         return JsonResponse({"error": "Post not found."}, status=404)
 
+    # Jos request method on GET, palautetaan postaus JSON-muodossa
     if request.method == "GET":
         post_serialized = post.serialize()
         user_id = request.user.id
@@ -167,6 +167,7 @@ def getPost(request, post_id):
 
         return JsonResponse(post_serialized, safe=False)
 
+    # Jos request method on PUT, tehdään jokin useammasta vaihtoehdosta...
     if request.method == "PUT":
         data = json.loads(request.body)
         if "like" in data:
@@ -188,9 +189,18 @@ def getPost(request, post_id):
                     return JsonResponse({"error": "Could not remove Like"}, status=404)
         # alle uusi koodi
         elif "edited_post" in data:
-            pass
+            try:
+                post.content = data.get("edited_post")
+                post.save(["content"])
+                return HttpResponse(status=204)
+            except:
+                return JsonResponse({"error": "Could not edit Post"}, status=404)
         elif "delete" in data:
-            pass
+            try:
+                post.delete()
+                return HttpResponse(status=204)
+            except:
+                return JsonResponse({"error": "Could not delete Post"}, status=404)
 
 
 @login_required
