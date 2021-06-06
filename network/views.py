@@ -169,22 +169,28 @@ def getPost(request, post_id):
 
     if request.method == "PUT":
         data = json.loads(request.body)
-        if data.get("like") == True:
-            # Jos like on True, yritetään lisätä Like. Annetaan lopputuloksesta statuskoodi.
-            try:
-                like = Like(user=request.user, post=post)
-                like.save()
-                return HttpResponse(status=204)
-            except:
-                return JsonResponse({"error": "Could not add Like"}, status=404)
-        else:
-            # Jos like ei ole True (eli on False), poistetaan Like. Annetaan lopputuloksesta statuskoodi.
-            try:
-                like = Like.objects.get(user=request.user, post=post)
-                like.delete()
-                return HttpResponse(status=204)
-            except:
-                return JsonResponse({"error": "Could not remove Like"}, status=404)
+        if "like" in data:
+            if data.get("like") == True:
+                # Jos like on True, yritetään lisätä Like. Annetaan lopputuloksesta statuskoodi.
+                try:
+                    like = Like(user=request.user, post=post)
+                    like.save()
+                    return HttpResponse(status=204)
+                except:
+                    return JsonResponse({"error": "Could not add Like"}, status=404)
+            elif data.get("like") == False:
+                # Jos like ei ole True (eli on False), poistetaan Like. Annetaan lopputuloksesta statuskoodi.
+                try:
+                    like = Like.objects.get(user=request.user, post=post)
+                    like.delete()
+                    return HttpResponse(status=204)
+                except:
+                    return JsonResponse({"error": "Could not remove Like"}, status=404)
+        # alle uusi koodi
+        elif "edited_post" in data:
+            pass
+        elif "delete" in data:
+            pass
 
 
 @login_required
