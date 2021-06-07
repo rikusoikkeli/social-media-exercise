@@ -84,10 +84,16 @@ article img {
 }
 
 .post-top {
-    display: flex;
+    display: grid;
+    grid-template-columns: 100px 300px auto;
+    height: fit-content;
 }
 
-.post-edit-button {
+.post-extra-buttons {
+    background-color: burlywood;
+}
+
+.post-extra-buttons > * {
     float: right;
 }
 

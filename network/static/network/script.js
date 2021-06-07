@@ -160,7 +160,7 @@ function addFollowButtons() {
                 follow_button_div.id = "unfollow";
                 follow_button_div.dataset.userId = post_user_id;
                 follow_button_div.innerHTML = "<button>Unfollow</button>";
-                top_div.append(follow_button_div);
+                top_div.querySelector(".post-extra-buttons").append(follow_button_div);
                 follow_button_div.addEventListener("click", followUnfollow);
 
             } else if (data["current_user_follows"] === false) {
@@ -169,7 +169,7 @@ function addFollowButtons() {
                 follow_button_div.id = "follow";
                 follow_button_div.dataset.userId = post_user_id;
                 follow_button_div.innerHTML = "<button>Follow</button>";
-                top_div.append(follow_button_div);
+                top_div.querySelector(".post-extra-buttons").append(follow_button_div);
                 follow_button_div.addEventListener("click", followUnfollow);
             }
         })
@@ -232,7 +232,7 @@ function addEditButtons() {
                 const edit_button_div = document.createElement("div");
                 edit_button_div.className = "post-edit-button";
                 edit_button_div.innerHTML = "<button>Edit</button>";
-                top_div.append(edit_button_div);
+                top_div.querySelector(".post-extra-buttons").append(edit_button_div);
             }
         })
     })
