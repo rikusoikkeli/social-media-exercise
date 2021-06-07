@@ -235,13 +235,17 @@ def userData(request, user_id):
     if request.method == "GET":
         user_serialized = user.serialize()
         # jos käyttäjä hakee itsensä tiedot, ei alla olevaa kenttää, jotta JS ei laita nappia
+        # lisätään myös current_user_is_user bool
         if request.user.id != user_serialized["user_id"]:
+            user_serialized["current_user_is_user"] = False
             # kokeillaan, onko requestin lähettäjä dictissä user_is_followed by
             try:
                 user_serialized["user_is_followed_by"][request.user.id]
                 user_serialized["current_user_follows"] = True
             except:
                 user_serialized["current_user_follows"] = False
+        else:
+            user_serialized["current_user_is_user"] = True
 
         return JsonResponse(user_serialized, safe=False) 
 

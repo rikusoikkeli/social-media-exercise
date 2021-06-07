@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     addComments();
     addLikeButtons();
-    addFollowButtons()
+    addFollowButtons();
+    addEditButtons();
 });
 
 
@@ -204,3 +205,36 @@ function followUnfollow() {
         })
     }
 }
+
+
+/*
+Jos nykyisen käyttäjän id on .post-top -> data-post-user-id, laitetaan edit-painike. 
+*/
+function addEditButtons() {
+
+    // Poistetaan vanhat painikkeet, jos on
+    const buttons = document.querySelectorAll(".post-edit-button");
+    buttons.forEach(function(button) {
+        button.remove();
+    });
+
+    // Lisätään uudet painikkeet
+    // loopataan .post-top divit, kysely apiin, jos current_user_is_user on true, laitetaan nappi
+    const post_top_divs = document.querySelectorAll(".post-top");
+    post_top_divs.forEach(function(top_div) {
+        var post_user_id = top_div.dataset.postUserId;
+
+        fetch(`/data/user/${post_user_id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data["current_user_is_user"] === true) {
+                // koodia
+                const edit_button_div = document.createElement("div");
+                edit_button_div.className = "post-edit-button";
+                edit_button_div.innerHTML = "<button>Edit</button>";
+                top_div.append(edit_button_div);
+            }
+        })
+    })
+};
+
