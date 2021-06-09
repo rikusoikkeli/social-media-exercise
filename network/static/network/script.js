@@ -207,9 +207,6 @@ function followUnfollow() {
 }
 
 
-/*
-Jos nykyisen käyttäjän id on .post-top -> data-post-user-id, laitetaan edit-painike. 
-*/
 function addEditButtons() {
 
     // Poistetaan vanhat painikkeet, jos on
@@ -219,7 +216,6 @@ function addEditButtons() {
     });
 
     // Lisätään uudet painikkeet
-    // loopataan .post-top divit, kysely apiin, jos current_user_is_user on true, laitetaan nappi
     const post_top_divs = document.querySelectorAll(".post-top");
     post_top_divs.forEach(function(top_div) {
         var post_user_id = top_div.dataset.postUserId;
@@ -228,13 +224,126 @@ function addEditButtons() {
         .then(response => response.json())
         .then(data => {
             if (data["current_user_is_user"] === true) {
-                // koodia
                 const edit_button_div = document.createElement("div");
                 edit_button_div.className = "post-edit-button";
                 edit_button_div.innerHTML = "<button>Edit</button>";
                 top_div.querySelector(".post-extra-buttons").append(edit_button_div);
+                edit_button_div.addEventListener("click", editPost);
             }
         })
     })
+};
+
+
+function editPost() {
+    console.log("button clicked!");
+
+    // Lisätään textarea
+    const post = this.parentElement.parentElement.parentElement;
+    var post_content = post.querySelector(".post-content")
+    var textarea = document.createElement("div");
+    textarea.innerHTML = `<textarea>${post_content.innerText.trim()}</textarea>`;
+    post_content.innerHTML = textarea.innerHTML;
+
+    // Lisätään uudet painikkeet
+    var edit_button = post.querySelector(".post-edit-button");
+    edit_button.remove();
+
+    var save_button = document.createElement("div");
+    save_button.className = "post-save-button";
+    save_button.innerHTML = "<button>Save</button>";
+
+    var delete_button = document.createElement("div");
+    delete_button.className = "post-delete-button";
+    delete_button.innerHTML = "<button>Delete</button>";
+
+    extra_buttons = post.querySelector(".post-extra-buttons");
+    extra_buttons.append(save_button);
+    extra_buttons.append(delete_button);
+
+    // Lisätään event listenerit
+    save_button.addEventListener("click", saveEdit);
+    delete_button.addEventListener("click", deletePost);
+}
+
+
+/*
+Event handler Save-napille
+*/
+
+function saveEdit() {
+    console.log("saved post");
+
+    // koodi
+    var post = this.parentElement.parentElement.parentElement;
+    const post_id = post.querySelector(".post-bottom").dataset.postId
+    var post_content = post.querySelector("textarea").value;
+    console.log(post_content);
+
+    fetch(`post/${post_id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+            edited_post: post_content
+        })
+    })
+    // Mitä tapahtuu, kun serveri vastaa
+    .then(data => {
+        console.log(data);
+
+        // Poistetaan vanhat painikkeet
+        var buttons = document.querySelectorAll(".post-save-button");
+        buttons.forEach(function(button) {
+            button.remove();
+        })
+    
+        var buttons = document.querySelectorAll(".post-delete-button");
+        buttons.forEach(function(button) {
+            button.remove();
+        })
+
+        // Lisätään uudet edit-painikkeet
+        addEditButtons()
+
+        // Korvataan textarea päivitetyllä sisällöllä
+        post.querySelector(".post-content").innerHTML = post_content;
+    })
+};
+
+
+
+
+
+
+
+
+
+
+/*
+Event handler Delete-napille
+*/
+
+function deletePost() {
+    console.log("deleted post")
+
+    // koodi
+    var post = this.parentElement.parentElement.parentElement;
+    const post_id = post.querySelector(".post-bottom").dataset.postId
+
+    fetch(`post/${post_id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+            delete: true
+        })
+    })
+    // Mitä tapahtuu, kun serveri vastaa
+    .then(data => {
+        post.style.animationPlayState = "running";
+        post.addEventListener("animationend", () => {
+            post.remove();
+        })
+    })
+
+
+
 };
 

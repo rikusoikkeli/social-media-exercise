@@ -16,6 +16,15 @@
     }
 }
 
+@keyframes hide-div {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 #page-div {
     background-color: whitesmoke;
     display: flex;
@@ -76,6 +85,9 @@
     padding: 10px;
     overflow: hidden;
     background-color: lightgray;
+    animation: hide-div;
+    animation-play-state: paused;
+    animation-duration: 2s;
 }
 
 article img {
@@ -128,6 +140,11 @@ article img {
 .post-content {
     margin: 20px;
     white-space: pre-line;
+    margin-bottom: 30px;
+}
+
+.post-content > textarea {
+    width: 100%;
 }
 
 .page-bottom-div {

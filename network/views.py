@@ -191,16 +191,17 @@ def getPost(request, post_id):
         elif "edited_post" in data:
             try:
                 post.content = data.get("edited_post")
-                post.save(["content"])
+                post.save()
                 return HttpResponse(status=204)
             except:
                 return JsonResponse({"error": "Could not edit Post"}, status=404)
         elif "delete" in data:
-            try:
-                post.delete()
-                return HttpResponse(status=204)
-            except:
-                return JsonResponse({"error": "Could not delete Post"}, status=404)
+            if data.get("delete") == True:
+                try:
+                    post.delete()
+                    return HttpResponse(status=204)
+                except:
+                    return JsonResponse({"error": "Could not delete Post"}, status=404)
 
 
 @login_required
