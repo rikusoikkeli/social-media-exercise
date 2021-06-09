@@ -337,13 +337,10 @@ function deletePost() {
     })
     // Mitä tapahtuu, kun serveri vastaa
     .then(data => {
-        post.style.animationPlayState = "running";
-        post.addEventListener("animationend", () => {
-            post.remove();
+        post.parentElement.style.animationPlayState = "running";
+        post.parentElement.addEventListener("animationend", () => {
+            post.parentElement.remove();
         })
     })
-
-
-
 };
 

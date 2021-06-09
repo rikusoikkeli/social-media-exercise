@@ -23,39 +23,41 @@
                     <ul>
                         {% for post in page %}
                         <article>
-                            <div class="post-main">
-                                <div class="post-top" data-post-user-id="{{ post.user.id }}">
-                                    <div class="post-image">
-                                        <img src="{{ post.user.getStaticURL }}" alt="image">
+                            <div class="post-and-comments">
+                                <div class="post-main">
+                                    <div class="post-top" data-post-user-id="{{ post.user.id }}">
+                                        <div class="post-image">
+                                            <img src="{{ post.user.getStaticURL }}" alt="image">
+                                        </div>
+                                        <div class="post-username">
+                                            <a href="{% url 'network:profileView' post.user.id %}">{{ post.user.username }}</a>
+                                        </div>
+                                        <div class="post-extra-buttons">
+                                        </div>
                                     </div>
-                                    <div class="post-username">
-                                        <a href="{% url 'network:profileView' post.user.id %}">{{ post.user.username }}</a>
+                                    <div class="post-content">
+                                        {{ post.content }}
                                     </div>
-                                    <div class="post-extra-buttons">
+                                    <div class="post-bottom" data-post-id="{{ post.id }}">
+                                        <div class="timestamp">
+                                            {{ post.time }}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="post-content">
-                                    {{ post.content }}
+                                <div class="post-all-comments" data-post-id="{{ post.id }}">
                                 </div>
-                                <div class="post-bottom" data-post-id="{{ post.id }}">
-                                    <div class="timestamp">
-                                        {{ post.time }}
-                                    </div>
+                                {% if user.is_authenticated %}
+                                <div class="post-add-comment">
+                                    <form action="{% url 'network:index' %}" method="post">
+                                        {% csrf_token %}
+                                        {{ comment_form }}
+                                        <input type="Submit" class="btn btn-secondary" value="Comment">
+                                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                                        <input type="hidden" name="page" value="{{ page.number }}">
+                                    </form>
                                 </div>
+                                {% endif %}
                             </div>
-                            <div class="post-all-comments" data-post-id="{{ post.id }}">
-                            </div>
-                            {% if user.is_authenticated %}
-                            <div class="post-add-comment">
-                                <form action="{% url 'network:index' %}" method="post">
-                                    {% csrf_token %}
-                                    {{ comment_form }}
-                                    <input type="Submit" class="btn btn-secondary" value="Comment">
-                                    <input type="hidden" name="post_id" value="{{ post.id }}">
-                                    <input type="hidden" name="page" value="{{ page.number }}">
-                                </form>
-                            </div>
-                            {% endif %}
                         </article>
                         {% endfor %}
                     </ul>
