@@ -20,8 +20,13 @@
     0% {
         opacity: 1;
     }
+    50% {
+        opacity: 0;
+        max-height: 1000px;
+    }
     100% {
         opacity: 0;
+        max-height: 0px;
     }
 }
 
@@ -80,7 +85,7 @@
 .post-and-comments {
     animation: hide-div;
     animation-play-state: paused;
-    animation-duration: 2s;
+    animation-duration: 1500ms;
 }
 
 .post-main {
@@ -94,8 +99,8 @@
 }
 
 article img {
-    width: 100px;
-    height: auto;
+    max-height: 100px;
+    max-width: 100px;
 }
 
 .post-top {
