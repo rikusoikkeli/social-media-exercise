@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     addComments();
     addLikeButtons();
-    addFollowButtons();
     addEditButtons();
+    addFollowButtons();
 });
 
 
@@ -147,7 +147,7 @@ function addFollowButtons() {
     });
 
     // Lopuksi lisätään namiskat
-    const post_top_divs = document.querySelectorAll(".post-top");
+    const post_top_divs = document.querySelectorAll(".post-top, #profile-div");
     post_top_divs.forEach(function(top_div) {
         var post_user_id = top_div.dataset.postUserId;
         // Fetchataan postaajan id :llä ja tarkistetaan, seuraako nykyinen käyttäjä postaajaa
@@ -160,7 +160,7 @@ function addFollowButtons() {
                 follow_button_div.id = "unfollow";
                 follow_button_div.dataset.userId = post_user_id;
                 follow_button_div.innerHTML = "<button>Unfollow</button>";
-                top_div.querySelector(".post-extra-buttons").append(follow_button_div);
+                top_div.querySelector(".post-extra-buttons, .profile-extra-buttons").append(follow_button_div);
                 follow_button_div.addEventListener("click", followUnfollow);
 
             } else if (data["current_user_follows"] === false) {
@@ -169,7 +169,7 @@ function addFollowButtons() {
                 follow_button_div.id = "follow";
                 follow_button_div.dataset.userId = post_user_id;
                 follow_button_div.innerHTML = "<button>Follow</button>";
-                top_div.querySelector(".post-extra-buttons").append(follow_button_div);
+                top_div.querySelector(".post-extra-buttons, .profile-extra-buttons").append(follow_button_div);
                 follow_button_div.addEventListener("click", followUnfollow);
             }
         })
@@ -236,8 +236,7 @@ function addEditButtons() {
 
 
 function editPost() {
-    console.log("button clicked!");
-
+    
     // Lisätään textarea
     const post = this.parentElement.parentElement.parentElement;
     var post_content = post.querySelector(".post-content")

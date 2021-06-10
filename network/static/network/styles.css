@@ -109,10 +109,6 @@ article img {
     height: fit-content;
 }
 
-.post-extra-buttons {
-    background-color: burlywood;
-}
-
 .post-extra-buttons > * {
     float: right;
 }

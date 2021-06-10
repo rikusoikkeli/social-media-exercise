@@ -1,6 +1,6 @@
 {% load static %}
 
-<div id="profile-div">
+<div id="profile-div" data-post-user-id="{{ profile_user.pk }}">
     <div class="profile-image">
         <img src="{{ profile_user.getStaticURL }}" alt="image">
     </div>
@@ -21,6 +21,6 @@
             User doesn't follow anyone.
         {% endif %}
     </div>
-    <div class="post-top" data-post-user-id="{{ profile_user.pk }}">
+    <div class="profile-extra-buttons">
     </div>
 </div>
