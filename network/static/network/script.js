@@ -267,14 +267,9 @@ function editPost() {
 }
 
 
-/*
-Event handler Save-napille
-*/
-
+//Event handler Save-napille
 function saveEdit() {
-    console.log("saved post");
 
-    // koodi
     var post = this.parentElement.parentElement.parentElement;
     const post_id = post.querySelector(".post-bottom").dataset.postId
     var post_content = post.querySelector("textarea").value;
@@ -295,7 +290,6 @@ function saveEdit() {
         buttons.forEach(function(button) {
             button.remove();
         })
-    
         var buttons = document.querySelectorAll(".post-delete-button");
         buttons.forEach(function(button) {
             button.remove();
@@ -310,22 +304,9 @@ function saveEdit() {
 };
 
 
-
-
-
-
-
-
-
-
-/*
-Event handler Delete-napille
-*/
-
+//Event handler Delete-napille
 function deletePost() {
-    console.log("deleted post")
 
-    // koodi
     var post = this.parentElement.parentElement.parentElement;
     const post_id = post.querySelector(".post-bottom").dataset.postId
 
@@ -335,7 +316,6 @@ function deletePost() {
             delete: true
         })
     })
-    // Mitä tapahtuu, kun serveri vastaa
     .then(data => {
         post.parentElement.style.animationPlayState = "running";
         post.parentElement.addEventListener("animationend", () => {
