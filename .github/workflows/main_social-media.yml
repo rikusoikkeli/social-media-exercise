@@ -31,6 +31,9 @@ jobs:
       run: pip install -r requirements.txt
 
     # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+      - name: Run Django unit tests
+        run: |
+          python manage.py collectstatic
 
     - name: Upload artifact for deployment jobs
       uses: actions/upload-artifact@v2
