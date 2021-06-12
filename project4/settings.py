@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver', 'social-media.azurewebs
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic", # test
     'network',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Add whitenoise middleware after the security middleware                             
+    'whitenoise.middleware.WhiteNoiseMiddleware', # test
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -127,4 +130,6 @@ USE_TZ = True
 
 STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/static/") # test
 STATIC_ROOT = os.environ.get("DJANGO_STATIC_ROOT", "./static/") # test
+
+STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage') # test
 
