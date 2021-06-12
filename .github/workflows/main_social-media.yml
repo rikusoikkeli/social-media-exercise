@@ -31,6 +31,9 @@ jobs:
       run: pip install -r requirements.txt
 
     # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+    - name: initialise static files
+      run: |
+        python manage.py collectstatic
 
     - name: Upload artifact for deployment jobs
       uses: actions/upload-artifact@v2
@@ -60,4 +63,3 @@ jobs:
           app-name: 'social-media'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_4efcc8f367c54f53b64736fd070869d7 }}
-
