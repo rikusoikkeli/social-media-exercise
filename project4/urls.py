@@ -18,6 +18,8 @@ from django.urls import include, path
 from django.conf import settings # test
 from django.conf.urls.static import static # test
 
+STATIC_URL = '/static/'
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("network.urls")),
