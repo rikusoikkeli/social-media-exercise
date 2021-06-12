@@ -73,7 +73,7 @@ function addLikeButtons() {
                 likeButtonDiv.className = "like-button";
                 likeButtonDiv.id = "like";
                 likeButtonDiv.dataset.postId = bottomDiv.dataset.postId;
-                likeButtonDiv.innerHTML = '<button type="button">Like</button>';
+                likeButtonDiv.innerHTML = '<button class="btn btn-light" type="button">Like</button>';
                 bottomDiv.append(likeButtonDiv);
 
                 // Like napin viereen teksti, jos on
@@ -93,7 +93,7 @@ function addLikeButtons() {
                 likeButtonDiv.className = "like-button";
                 likeButtonDiv.id = "unlike";
                 likeButtonDiv.dataset.postId = bottomDiv.dataset.postId;
-                likeButtonDiv.innerHTML = '<button type="button">Unlike</button>';
+                likeButtonDiv.innerHTML = '<button class="btn btn-dark" type="button">Unlike</button>';
                 bottomDiv.append(likeButtonDiv);
                 
                 // Like napin viereen teksti, jos on
@@ -159,7 +159,7 @@ function addFollowButtons() {
                 follow_button_div.className = "post-username-follow";
                 follow_button_div.id = "unfollow";
                 follow_button_div.dataset.userId = post_user_id;
-                follow_button_div.innerHTML = "<button>Unfollow</button>";
+                follow_button_div.innerHTML = '<button class="btn btn-dark">Unfollow</button>';
                 top_div.querySelector(".post-extra-buttons, .profile-extra-buttons").append(follow_button_div);
                 follow_button_div.addEventListener("click", followUnfollow);
 
@@ -168,7 +168,7 @@ function addFollowButtons() {
                 follow_button_div.className = "post-username-follow";
                 follow_button_div.id = "follow";
                 follow_button_div.dataset.userId = post_user_id;
-                follow_button_div.innerHTML = "<button>Follow</button>";
+                follow_button_div.innerHTML = '<button class="btn btn-light">Follow</button>';
                 top_div.querySelector(".post-extra-buttons, .profile-extra-buttons").append(follow_button_div);
                 follow_button_div.addEventListener("click", followUnfollow);
             }
@@ -226,7 +226,7 @@ function addEditButtons() {
             if (data["current_user_is_user"] === true) {
                 const edit_button_div = document.createElement("div");
                 edit_button_div.className = "post-edit-button";
-                edit_button_div.innerHTML = "<button>Edit</button>";
+                edit_button_div.innerHTML = '<button class="btn btn-warning">Edit</button>';
                 top_div.querySelector(".post-extra-buttons").append(edit_button_div);
                 edit_button_div.addEventListener("click", editPost);
             }
@@ -250,11 +250,11 @@ function editPost() {
 
     var save_button = document.createElement("div");
     save_button.className = "post-save-button";
-    save_button.innerHTML = "<button>Save</button>";
+    save_button.innerHTML = '<button class="btn btn-success">Save</button>';
 
     var delete_button = document.createElement("div");
     delete_button.className = "post-delete-button";
-    delete_button.innerHTML = "<button>Delete</button>";
+    delete_button.innerHTML = '<button class="btn btn-danger">Delete</button>';
 
     extra_buttons = post.querySelector(".post-extra-buttons");
     extra_buttons.append(save_button);
