@@ -124,6 +124,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATIC_ROOT = '/tmp/8d92d77a70b3c00/network/static/' # test
-
