@@ -63,3 +63,4 @@ jobs:
           app-name: 'social-media'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_4efcc8f367c54f53b64736fd070869d7 }}
+

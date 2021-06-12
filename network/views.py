@@ -59,7 +59,7 @@ def index(request, feed=Feed()):
             return render(request, "network/error.html", {
                 "title": "404 Not Found :(",
                 "message": "User doesn't exist."
-            })
+            }, status=404)
 
         # Paginator params: iterable, objects per page
         posts_paginated = Paginator(posts, 5)
@@ -226,7 +226,7 @@ def makeNewPost(request):
             return render(request, "network/error.html", {
                 "title": "500 Internal Server Error :(",
                 "message": "Could not create post."
-            })
+            }, status=500)
         # ohjataan etusivulle
         return HttpResponseRedirect(reverse("network:index"))
 
@@ -291,5 +291,5 @@ def profileView(request, user_id):
         return render(request, "network/error.html", {
             "title": "403 Forbidden :(",
             "message": "You must be logged in to view profiles."
-        })
+        }, status=403)
 
