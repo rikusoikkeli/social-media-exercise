@@ -55,10 +55,14 @@ def index(request, feed=Feed()):
                 profile_user = User.objects.get(pk=feed.getUserID())
                 posts = getUsersPosts(profile_user.pk).order_by('-id')
         except:
-            return HttpResponse("User could not be found!", status=404)
+            #return HttpResponse("User could not be found!", status=404)
+            return render(request, "network/error.html", {
+                "title": "404 Not Found :(",
+                "message": "User doesn't exist."
+            })
 
         # Paginator params: iterable, objects per page
-        posts_paginated = Paginator(posts, 3)
+        posts_paginated = Paginator(posts, 5)
         # get method params: name from query string, default value if not found
         page_num = request.GET.get("page", 1)
         page = posts_paginated.page(page_num)
@@ -219,7 +223,10 @@ def makeNewPost(request):
                 raise Exception("Not valid data!")
         except:
             # palautetaan error
-            return HttpResponse("Something went wrong!")
+            return render(request, "network/error.html", {
+                "title": "500 Internal Server Error :(",
+                "message": "Could not create post."
+            })
         # ohjataan etusivulle
         return HttpResponseRedirect(reverse("network:index"))
 
@@ -281,5 +288,8 @@ def profileView(request, user_id):
         feed.setFeedToProfile(user_id)
         return index(request, feed)
     else:
-        return HttpResponse("Something went wrong!")
+        return render(request, "network/error.html", {
+            "title": "403 Forbidden :(",
+            "message": "You must be logged in to view profiles."
+        })
 
