@@ -4,6 +4,7 @@ import datetime
 
 
 class User(AbstractUser):
+    id = models.AutoField(primary_key=True)
     photo = models.ImageField(upload_to="network/static/network/photos", blank=True)
 
     def __str__(self):
@@ -37,6 +38,7 @@ class User(AbstractUser):
 
 
 class Follow(models.Model):
+    id = models.AutoField(primary_key=True)
     follower = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="follows")
     followed = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="followers")
 
@@ -61,6 +63,7 @@ class Follow(models.Model):
 
 
 class Post(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
     content = models.CharField(max_length=280, blank=False)
     time = models.DateTimeField(auto_now_add=True)
@@ -94,6 +97,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
     content = models.CharField(max_length=280, blank=False)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=False)
@@ -125,6 +129,7 @@ class Comment(models.Model):
 
 
 class Like(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=False, related_name="likes")
 
